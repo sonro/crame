@@ -1,0 +1,19 @@
+[package]
+name = "crame"
+version = "0.1.0"
+authors = ["Christopher Morton <sonro@gmx.com>"]
+edition = "2021"
+description = "crame is a build tool for c projects, with a small testing framework."
+categories = ["command-line-utilities"]
+keywords = [
+    "build",
+    "tool",
+    "c",
+    "framework",
+    "test",
+]
+repository = "https://github.com/sonro/crame"
+license = "MIT/Apache-2.0"
+readme = "README.md"
+
+[dependencies]
