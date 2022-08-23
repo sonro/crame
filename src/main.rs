@@ -5,12 +5,16 @@ use tracing_subscriber::fmt;
 
 mod app;
 mod cli;
+mod error;
 
 fn main() {
     let args = Args::parse();
     setup_logging(&args);
-    tracing::info!("Starting app");
-    println!("{:?}", args);
+    tracing::debug!("Starting app");
+
+    if let Err(ref err) = args.run() {
+        error::report_exit(err);
+    }
 }
 
 fn setup_logging(args: &Args) {

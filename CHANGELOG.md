@@ -12,3 +12,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Command line interface parsing with [clap](https://github.com/clap-rs/clap).
 - 'new' command cli interface for starting a crame project.
 - Setup [tracing](https://github.com/tokio-rs/tracing) for application logging.
+- Setup [anyhow](https://github.com/dtolnay/anyhow) for error handling.
+- Coloured error output using [colored](https://github.com/mackwic/colored).

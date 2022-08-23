@@ -16,3 +16,11 @@ pub struct Args {
 pub enum Command {
     New(app::new::Command),
 }
+
+impl Args {
+    pub fn run(&self) -> anyhow::Result<()> {
+        match &self.command {
+            Command::New(com) => com.run(),
+        }
+    }
+}

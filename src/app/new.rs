@@ -28,3 +28,9 @@ pub enum BuildSystem {
     Just,
     Make,
 }
+
+impl Command {
+    pub fn run(&self) -> anyhow::Result<()> {
+        anyhow::bail!("unimplemented");
+    }
+}
