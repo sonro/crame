@@ -1,6 +1,5 @@
+use crate::app;
 use clap::{Parser, Subcommand};
-
-mod new;
 
 #[derive(Debug, Parser)]
 #[clap(author, version, about, long_about = None)]
@@ -15,5 +14,5 @@ pub struct Args {
 
 #[derive(Debug, Subcommand)]
 pub enum Command {
-    New(new::Command),
+    New(app::new::Command),
 }

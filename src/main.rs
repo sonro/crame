@@ -3,6 +3,7 @@ use cli::Args;
 use tracing::Level;
 use tracing_subscriber::fmt;
 
+mod app;
 mod cli;
 
 fn main() {
