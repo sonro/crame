@@ -14,8 +14,11 @@ fn main() {
     tracing::debug!("Starting app");
 
     if let Err(ref err) = args.run() {
-        error::report_exit(err);
+        error::report_exit(err, args.verbose);
     }
+
+    tracing::debug!("Closing app");
+    std::process::exit(exitcode::OK)
 }
 
 fn setup_logging(args: &Args) {
@@ -34,5 +37,5 @@ fn std_logging() {
 }
 
 fn verbose_logging() {
-    fmt().with_max_level(Level::DEBUG).init();
+    fmt().pretty().with_max_level(Level::DEBUG).init();
 }
