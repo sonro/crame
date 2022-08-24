@@ -6,6 +6,7 @@ use tracing_subscriber::fmt;
 mod app;
 mod cli;
 mod error;
+mod service;
 
 fn main() {
     let args = Args::parse();

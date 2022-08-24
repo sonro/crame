@@ -1,4 +1,5 @@
-use clap::{Args, ValueEnum};
+use crate::service::{build_system::BuildSystem, init::project_init, vcs::VersionControl};
+use clap::Args;
 use std::path::PathBuf;
 
 /// Create a new crame project
@@ -8,29 +9,16 @@ pub struct Command {
     pub path: PathBuf,
 
     /// Build system to use
-    #[clap(long = "build", short, value_enum)]
-    pub build_system: Option<BuildSystem>,
+    #[clap(long = "build", short, value_enum, default_value = "crame")]
+    pub build_system: BuildSystem,
 
     /// Version control system
-    #[clap(long, value_enum)]
-    pub vcs: Option<VersionControl>,
-}
-
-#[derive(Debug, Clone, Copy, ValueEnum)]
-pub enum VersionControl {
-    Git,
-    None,
-}
-
-#[derive(Debug, Clone, Copy, ValueEnum)]
-pub enum BuildSystem {
-    Crame,
-    Just,
-    Make,
+    #[clap(long, value_enum, default_value = "git")]
+    pub vcs: VersionControl,
 }
 
 impl Command {
     pub fn run(&self) -> anyhow::Result<()> {
-        anyhow::bail!("unimplemented");
+        project_init(&self.path, self.build_system, self.vcs)
     }
 }
