@@ -1,6 +1,10 @@
-use crate::service::{build_system::BuildSystem, init::project_init, vcs::VersionControl};
+use crate::{
+    error::Error,
+    service::{build_system::BuildSystem, init::project_init, vcs::VersionControl},
+};
+use anyhow::Context;
 use clap::Args;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 /// Create a new crame project
 #[derive(Debug, Args)]
@@ -18,7 +22,42 @@ pub struct Command {
 }
 
 impl Command {
+    #[tracing::instrument(level = "debug")]
     pub fn run(&self) -> anyhow::Result<()> {
-        project_init(&self.path, self.build_system, self.vcs)
+        let path = new_absolute_path(&self.path)?;
+
+        create_project_dir(&path)?;
+
+        let path = normalize_path(&path)?;
+
+        project_init(&path, self.build_system, self.vcs)
     }
+}
+
+fn new_absolute_path(path: &Path) -> anyhow::Result<PathBuf> {
+    let path = std::env::current_dir()
+        .with_context(|| format!("unable to create absolute path from: `{}`", path.display()))?
+        .join(path);
+
+    tracing::debug!("Checking target path: `{}`", path.display());
+
+    if path.exists() {
+        anyhow::bail!(Error::Conflict(path));
+    }
+
+    Ok(path)
+}
+
+fn create_project_dir(path: &Path) -> anyhow::Result<()> {
+    tracing::debug!("Creating project directory: `{}`", path.display());
+
+    std::fs::create_dir_all(path)
+        .with_context(|| format!("unable to create directory `{}`", path.display()))
+}
+
+fn normalize_path(path: &Path) -> anyhow::Result<PathBuf> {
+    tracing::debug!("Normalizing path: `{}`", path.display());
+
+    path.canonicalize()
+        .with_context(|| format!("unable to create noramlized path from `{}`", path.display()))
 }
