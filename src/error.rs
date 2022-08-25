@@ -3,8 +3,20 @@ use std::{io, path::PathBuf, process};
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
+    #[error("unable to create directory: `{0}`")]
+    CreateDir(PathBuf),
+
+    #[error("unable to create project file: `{0}`")]
+    CreateFile(PathBuf),
+
     #[error("`{0}` already exists")]
     Conflict(PathBuf),
+
+    #[error("unable to normalize path: `{0}`")]
+    Normalize(PathBuf),
+
+    #[error("cannot write to file: `{0}`")]
+    WriteFile(PathBuf),
 }
 
 pub fn report_exit(err: &anyhow::Error, verbose: bool) {
@@ -24,7 +36,11 @@ pub fn report(err: &anyhow::Error, verbose: bool) {
 fn exitcode_from_err(err: &anyhow::Error) -> exitcode::ExitCode {
     if let Some(err) = err.downcast_ref::<Error>() {
         match err {
-            Error::Conflict(_) => exitcode::CANTCREAT,
+            Error::Conflict(_)
+            | Error::CreateDir(_)
+            | Error::Normalize(_)
+            | Error::CreateFile(_) => exitcode::CANTCREAT,
+            Error::WriteFile(_) => exitcode::IOERR,
         }
     } else if let Some(err) = err.downcast_ref::<io::Error>() {
         match err.kind() {
@@ -50,10 +66,27 @@ mod tests {
 
     #[test]
     fn exitcode_conflict() {
-        let path = PathBuf::new();
-        let error = anyhow::anyhow!(Error::Conflict(path));
-        let code = exitcode_from_err(&error);
-        assert_eq!(exitcode::CANTCREAT, code);
+        assert_error_code(Error::Conflict(PathBuf::new()), exitcode::CANTCREAT);
+    }
+
+    #[test]
+    fn exitcode_create_dir() {
+        assert_error_code(Error::CreateDir(PathBuf::new()), exitcode::CANTCREAT);
+    }
+
+    #[test]
+    fn exitcode_create_file() {
+        assert_error_code(Error::CreateFile(PathBuf::new()), exitcode::CANTCREAT);
+    }
+
+    #[test]
+    fn exitcode_normalize() {
+        assert_error_code(Error::Normalize(PathBuf::new()), exitcode::CANTCREAT);
+    }
+
+    #[test]
+    fn exitcode_write_file() {
+        assert_error_code(Error::WriteFile(PathBuf::new()), exitcode::IOERR);
     }
 
     #[test]
@@ -78,6 +111,11 @@ mod tests {
 
     fn assert_io_error_code(kind: io::ErrorKind, code: exitcode::ExitCode) {
         let error = io::Error::from(kind);
+        let error = anyhow::anyhow!(error);
+        assert_eq!(code, exitcode_from_err(&error));
+    }
+
+    fn assert_error_code(error: Error, code: exitcode::ExitCode) {
         let error = anyhow::anyhow!(error);
         assert_eq!(code, exitcode_from_err(&error));
     }

@@ -51,13 +51,12 @@ fn new_absolute_path(path: &Path) -> anyhow::Result<PathBuf> {
 fn create_project_dir(path: &Path) -> anyhow::Result<()> {
     tracing::debug!("Creating project directory: `{}`", path.display());
 
-    std::fs::create_dir_all(path)
-        .with_context(|| format!("unable to create directory `{}`", path.display()))
+    std::fs::create_dir_all(path).with_context(|| Error::CreateDir(path.to_owned()))
 }
 
 fn normalize_path(path: &Path) -> anyhow::Result<PathBuf> {
     tracing::debug!("Normalizing path: `{}`", path.display());
 
     path.canonicalize()
-        .with_context(|| format!("unable to create noramlized path from `{}`", path.display()))
+        .with_context(|| Error::Normalize(path.to_owned()))
 }
