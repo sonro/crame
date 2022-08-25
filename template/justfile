@@ -1,0 +1,67 @@
+set dotenv-load
+
+# set executable name from $EXE_NAME, defaults to this directory
+exeName := env_var_or_default('EXE_NAME', file_name(justfile_directory()))
+
+# cc build options from $BUILD_OPTIONS, defaults to "-g"
+buildOptions := env_var_or_default('BUILD_OPTIONS', "-g")
+
+# list of source files, not including tests
+srcFiles := `fd -e c -p 'src|lib' --exec-batch echo`
+# list of all source files
+testFiles := `fd -e c --exclude 'src/main.c' -p 'src|lib|tests' --exec-batch echo`
+
+# choose recipe for default
+default:
+    @just --choose --chooser "fzf --height 10 --cycle"
+
+# build and run executable
+run: build
+    @echo "$(tput setaf 2)Running {{exeName}}$(tput sgr0):\n"
+    @./target/{{exeName}}
+
+# build and run tests
+test: _build-test
+    @echo "$(tput setaf 2)Testing$(tput sgr0):"
+    @-./target/test 
+
+# rebuild and run tests on every change
+watch:
+    @watchexec -cr -e c,h just test
+
+# rebuild and run executable on every change
+watch-run:
+    @watchexec -cr -e c,h just run
+
+# build executable into ./target
+build:
+    @echo "$(tput setaf 2)Building {{exeName}}$(tput sgr0):\n"
+    cc {{srcFiles}} -o ./target/{{exeName}} {{buildOptions}} 
+    @echo
+
+# build test executable into ./target
+_build-test:
+    @cc {{testFiles}} -o ./target/test -g
+
+# remove any builds from ./target
+clean:
+    @echo "Cleaning target/"
+    @rm -f target/*
+
+# add a <name>.c and <name>.h module to ./src
+add-module name:
+    #!/usr/bin/env bash
+    set -e
+
+    guardhead="{{uppercase(replace(exeName, '-', '_'))}}"
+    guardtail="_{{uppercase(replace(name, '/', '_'))}}_H"
+    guard="$guardhead$guardtail"
+
+    moduledir="{{justfile_directory()}}/src/{{parent_directory(name)}}"
+    headerfile="$moduledir/{{file_name(name)}}.h"
+    codefile="$moduledir/{{file_name(name)}}.c"
+
+    echo "Creating module files src/{{name}}.c src/{{name}}.h"
+    mkdir -p "$moduledir"
+    printf "#ifndef $guard\n#define $guard\n\n\n\n#endif" > "$headerfile"
+    printf "#include \"{{name}}.h\"\n\n\n" > "$codefile"

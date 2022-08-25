@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Cli interface for starting a crame project.
 - Error handling if project directory already exists.
-- Create project directory
+- Create project directory.
+- Template for project directories and files.
 
 #### Cli
 
