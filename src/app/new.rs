@@ -30,7 +30,7 @@ impl Command {
 
         let path = normalize_path(&path)?;
 
-        project_init(&path, self.build_system, self.vcs)
+        project_init(path, self.build_system, self.vcs)
     }
 }
 
