@@ -96,3 +96,86 @@ fn remove_path_depth(path: &mut PathBuf, depth: usize) {
         path.pop();
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use tempfile::tempdir;
+
+    #[test]
+    fn directories_exist() {
+        let dir = tempdir().expect("create temporary directory");
+        let dir_path = dir.path().to_owned();
+        let expected_dirs = &[
+            dir_path.join("src"),
+            dir_path.join("lib"),
+            dir_path.join("tests"),
+            dir_path.join("tests").join("unit"),
+        ];
+
+        project_init(dir_path, BuildSystem::Just, VersionControl::Git)
+            .expect("no error in project_init");
+
+        for dir in expected_dirs {
+            assert!(dir.exists(), "directory should exist: `{}`", dir.display());
+        }
+    }
+
+    #[test]
+    fn program_files_exist() {
+        let dir = tempdir().expect("create temporary directory");
+        let dir_path = dir.path().to_owned();
+        let expected_files = program_file_paths(&dir_path);
+
+        project_init(dir_path, BuildSystem::Just, VersionControl::Git)
+            .expect("no error in project_init");
+
+        for file in expected_files {
+            assert!(file.exists(), "file should exist: `{}`", file.display());
+        }
+    }
+
+    #[test]
+    fn program_files_contents() {
+        let tmp_dir = tempdir().expect("create temporary directory");
+        let tmp_dir_path = tmp_dir.path().to_owned();
+        let tmp_files = program_file_paths(&tmp_dir_path);
+
+        let template_dir = template_dir();
+        let template_files = program_file_paths(&template_dir);
+
+        project_init(tmp_dir_path, BuildSystem::Just, VersionControl::Git)
+            .expect("no error in project_init");
+
+        for (template, created) in template_files.iter().zip(tmp_files.iter()) {
+            let template_contents = file_contents(template);
+            let created_contents = file_contents(created);
+            assert_eq!(template_contents, created_contents);
+        }
+    }
+
+    fn program_file_paths(dir: &Path) -> Vec<PathBuf> {
+        vec![
+            dir.join("src").join("main.c"),
+            dir.join("tests").join("run.c"),
+            dir.join("tests").join("test_all.c"),
+            dir.join("tests").join("unit").join("it_works.c"),
+        ]
+    }
+
+    fn template_dir() -> PathBuf {
+        let mut dir = PathBuf::from(file!());
+        dir.pop();
+        dir.pop();
+        dir.pop();
+        dir.push("template");
+        dir
+    }
+
+    fn file_contents(path: &Path) -> String {
+        fs::read_to_string(path)
+            .map_err(|_| format!("read file: `{}`", path.display()))
+            .unwrap()
+    }
+}
