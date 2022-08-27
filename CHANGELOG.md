@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error handling if project directory already exists.
 - Create project directory.
 - Use a template to create project files.
+- Check if within an existing git repository or initialize it with [git2](https://github.com/rust-lang/git2-rs)
 
 #### Cli
 

@@ -1,4 +1,7 @@
-use super::{build_system::BuildSystem, vcs::VersionControl};
+use super::{
+    build_system::BuildSystem,
+    vcs::{init_vcs, VersionControl},
+};
 use crate::error::Error;
 
 use anyhow::Context;
@@ -16,13 +19,15 @@ use std::{
 pub fn project_init(
     mut path: PathBuf,
     _build_system: BuildSystem,
-    _vcs: VersionControl,
+    vcs: VersionControl,
 ) -> anyhow::Result<()> {
     let depth = path_depth(&path);
 
     create_directories(&mut path, depth)?;
 
     create_program_files(&mut path, depth)?;
+
+    init_vcs(vcs, &mut path)?;
 
     Ok(())
 }
