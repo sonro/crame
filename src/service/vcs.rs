@@ -58,11 +58,11 @@ fn git_ignores(repo: &Option<Repository>) -> anyhow::Result<String> {
                 ignores += rule;
                 ignores += "\n";
             } else {
-                tracing::debug!("Ignore rule in existing repo: `{}`", rule);
+                tracing::debug!(%rule, "Ignore already in existing repo");
             }
         }
     } else {
-        tracing::debug!("Adding ignore rules: {:?}", GIT_IGNORES);
+        tracing::debug!(?GIT_IGNORES, "Adding ignore rules");
 
         ignores = GIT_IGNORES.join("\n");
         ignores.push('\n');
@@ -74,7 +74,7 @@ fn git_ignores(repo: &Option<Repository>) -> anyhow::Result<String> {
 fn write_git_ignore(path: &mut PathBuf, contents: &str) {
     path.push(".gitignore");
 
-    tracing::debug!("Writing ignore rules to `{}`", path.display());
+    tracing::debug!(?path, "Writing ignore rules");
     if let Err(err) = fs::write(&path, contents) {
         error::report(&err.into(), true);
     }

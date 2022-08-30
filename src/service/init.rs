@@ -67,7 +67,7 @@ fn create_directories(path: &mut PathBuf, depth: usize) -> anyhow::Result<()> {
         path.push(dir);
         let new_depth = path_depth(path);
 
-        tracing::debug!("Creating directory: `{}`", path.display());
+        tracing::debug!(?path, "Creating directory");
 
         fs::create_dir(&path).with_context(|| Error::CreateDir(path.to_owned()))?;
 
@@ -82,7 +82,7 @@ fn create_program_files(path: &mut PathBuf, depth: usize) -> anyhow::Result<()> 
         path.push(source.path);
         let new_depth = path_depth(path);
 
-        tracing::debug!("Adding source file: `{}`", path.display());
+        tracing::debug!(?path, "Adding source file");
 
         let mut dest =
             fs::File::create(&path).with_context(|| Error::CreateFile(path.to_owned()))?;

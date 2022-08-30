@@ -39,7 +39,7 @@ fn new_absolute_path(path: &Path) -> anyhow::Result<PathBuf> {
         .with_context(|| format!("unable to create absolute path from: `{}`", path.display()))?
         .join(path);
 
-    tracing::debug!("Checking target path: `{}`", path.display());
+    tracing::debug!(?path, "Checking target");
 
     if path.exists() {
         anyhow::bail!(Error::Conflict(path));
@@ -49,13 +49,13 @@ fn new_absolute_path(path: &Path) -> anyhow::Result<PathBuf> {
 }
 
 fn create_project_dir(path: &Path) -> anyhow::Result<()> {
-    tracing::debug!("Creating project directory: `{}`", path.display());
+    tracing::debug!(?path, "Creating project directory");
 
     std::fs::create_dir_all(path).with_context(|| Error::CreateDir(path.to_owned()))
 }
 
 fn normalize_path(path: &Path) -> anyhow::Result<PathBuf> {
-    tracing::debug!("Normalizing path: `{}`", path.display());
+    tracing::debug!(?path, "Normalizing");
 
     path.canonicalize()
         .with_context(|| Error::Normalize(path.to_owned()))
