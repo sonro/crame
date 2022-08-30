@@ -15,15 +15,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error handling if project directory already exists.
 - Create project directory.
 - Use a template to create project files.
-- Check if within an existing git repository or initialize it with [git2](https://github.com/rust-lang/git2-rs)
+- Check if within an existing git repository or initialize it with [git2]
 
 #### Cli
 
-- Command line interface parsing with [clap](https://github.com/clap-rs/clap).
-- Setup [tracing](https://github.com/tokio-rs/tracing) for application logging.
+- Command line interface parsing with [clap].
+- Setup [tracing] for application logging.
 
 #### Error handling
 
-- Setup [anyhow](https://github.com/dtolnay/anyhow) and [thiserrror](https://github.com/dtolnay/thiserror) for error handling.
-- Coloured error output using [colored](https://github.com/mackwic/colored).
-- Exit code handling from [exitcode](https://github.com/benwilber/exitcode).
+- Setup [anyhow] and [thiserrror] for error handling.
+- Coloured error output using [colored].
+- Exit code handling from [exitcode].
+
+[git2]: https://github.com/rust-lang/git2-rs
+[clap]: https://github.com/clap-rs/clap
+[tracing]: https://github.com/tokio-rs/tracing
+[anyhow]: https://github.com/dtolnay/anyhow
+[thiserrror]: https://github.com/dtolnay/thiserror
+[colored]: https://github.com/mackwic/colored
+[exitcode]: https://github.com/benwilber/exitcode
