@@ -13,7 +13,7 @@ pub struct Command {
     pub path: PathBuf,
 
     /// Build system to use
-    #[clap(long = "build", short, value_enum, default_value = "crame")]
+    #[clap(long = "build", short, value_enum, default_value_t = BuildSystem::default())]
     pub build_system: BuildSystem,
 
     /// Version control system

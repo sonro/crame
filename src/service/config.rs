@@ -98,7 +98,7 @@ mod tests {
     #[test]
     fn init_from_path_error() {
         let path = "bad/path/..";
-        let err = Config::init_from_path(path, BuildSystem::Crame).expect_err("error init config");
+        let err = Config::init_from_path(path, BuildSystem::Just).expect_err("error init config");
         let msg = format!("cannot determine package name from path: `{}`", path);
         assert_eq!(msg, err.to_string());
     }
@@ -107,9 +107,9 @@ mod tests {
     fn init_from_path_success() {
         let name = "testname";
         let path = PathBuf::from("good/path/").join(name);
-        let config = Config::init_from_path(&path, BuildSystem::Crame).expect("init config");
+        let config = Config::init_from_path(&path, BuildSystem::Just).expect("init config");
 
-        assert!(matches!(config.package.build_system, BuildSystem::Crame));
+        assert!(matches!(config.package.build_system, BuildSystem::Just));
         assert_eq!(name, config.package.name);
     }
 
@@ -161,19 +161,19 @@ mod tests {
 
     const GOOD_TOML: &str = r#"[package]
 name = 'testname'
-build_system = 'crame'
+build_system = 'just'
 "#;
 
     const BAD_TOML: &str = r#"[package]
 nam = 'testname'
-build_system = 'crame'
+build_system = 'just'
 "#;
 
     fn test_config() -> Config {
         Config {
             package: Package {
                 name: "testname".into(),
-                build_system: BuildSystem::Crame,
+                build_system: BuildSystem::Just,
             },
         }
     }
