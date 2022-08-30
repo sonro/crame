@@ -35,6 +35,8 @@ pub fn project_init(
     let config = Config::init_from_path(&path, build_system)?;
     config.save_in_dir(&mut path)?;
 
+    tracing::info!("Created new crame project: `{}`", config.package.name);
+
     Ok(())
 }
 
