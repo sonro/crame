@@ -100,12 +100,13 @@ fn git_init(path: &Path) {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::service::test_util::testdir_and_path;
 
-    use tempfile::{tempdir, TempDir};
+    use tempfile::TempDir;
 
     #[test]
     fn none_empty_dir() {
-        let dir = empty_tempdir();
+        let (dir, _) = testdir_and_path();
         call_init_vcs(dir.path(), VersionControl::None);
         assert_no_dir_members(dir.path());
     }
@@ -156,8 +157,8 @@ mod tests {
     }
 
     fn git_empty_dir_init_vcs() -> TempDir {
-        let dir = empty_tempdir();
-        call_git_init_vcs(dir.path());
+        let (dir, path) = testdir_and_path();
+        call_git_init_vcs(&path);
         dir
     }
 
@@ -169,13 +170,9 @@ mod tests {
     }
 
     fn git_init_tempdir_no_ignore() -> TempDir {
-        let dir = empty_tempdir();
-        git_init(dir.path());
+        let (dir, path) = testdir_and_path();
+        git_init(&path);
         dir
-    }
-
-    fn empty_tempdir() -> TempDir {
-        tempdir().expect("create temp directory")
     }
 
     fn call_git_init_vcs(dir: &Path) {

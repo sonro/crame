@@ -111,13 +111,11 @@ fn remove_path_depth(path: &mut PathBuf, depth: usize) {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    use tempfile::tempdir;
+    use crate::service::test_util::{template_dir, testdir_and_path};
 
     #[test]
     fn directories_exist() {
-        let dir = tempdir().expect("create temporary directory");
-        let dir_path = dir.path().to_owned();
+        let (_dir, dir_path) = testdir_and_path();
         let expected_dirs = &[
             dir_path.join("src"),
             dir_path.join("lib"),
@@ -135,8 +133,7 @@ mod tests {
 
     #[test]
     fn program_files_exist() {
-        let dir = tempdir().expect("create temporary directory");
-        let dir_path = dir.path().to_owned();
+        let (_dir, dir_path) = testdir_and_path();
         let expected_files = program_file_paths(&dir_path);
 
         project_init(dir_path, BuildSystem::Just, VersionControl::Git)
@@ -149,8 +146,7 @@ mod tests {
 
     #[test]
     fn program_files_contents() {
-        let tmp_dir = tempdir().expect("create temporary directory");
-        let tmp_dir_path = tmp_dir.path().to_owned();
+        let (_tmp_dir, tmp_dir_path) = testdir_and_path();
         let tmp_files = program_file_paths(&tmp_dir_path);
 
         let template_dir = template_dir();
@@ -173,15 +169,6 @@ mod tests {
             dir.join("tests").join("test_all.c"),
             dir.join("tests").join("unit").join("it_works.c"),
         ]
-    }
-
-    fn template_dir() -> PathBuf {
-        let mut dir = PathBuf::from(file!());
-        dir.pop();
-        dir.pop();
-        dir.pop();
-        dir.push("template");
-        dir
     }
 
     fn file_contents(path: &Path) -> String {

@@ -92,8 +92,9 @@ impl Config {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::service::test_util::testdir_and_path;
 
-    use tempfile::{tempdir, TempDir};
+    use tempfile::TempDir;
 
     #[test]
     fn init_from_path_error() {
@@ -193,8 +194,8 @@ build_system = 'just'
     }
 
     fn create_toml_path() -> (TempDir, PathBuf) {
-        let dir = tempdir().expect("create temporary directory");
-        let path = dir.path().join("Crame.toml");
+        let (dir, mut path) = testdir_and_path();
+        path.push("Crame.toml");
         (dir, path)
     }
 
