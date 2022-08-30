@@ -1,5 +1,5 @@
 use super::{
-    build_system::BuildSystem,
+    build_system::{init_build_system, BuildSystem},
     config::Config,
     vcs::{init_vcs, VersionControl},
 };
@@ -29,6 +29,8 @@ pub fn project_init(
     create_program_files(&mut path, depth)?;
 
     init_vcs(vcs, &mut path)?;
+
+    init_build_system(build_system, &mut path)?;
 
     let config = Config::init_from_path(&path, build_system)?;
     config.save_in_dir(&mut path)?;

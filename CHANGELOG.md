@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use a template to create project files.
 - Check if within an existing git repository or initialize it with [git2]
 - Create config in 'Crame.toml' file using [serde] and [toml].
+- Create justfile as build system.
 
 #### Cli
 
