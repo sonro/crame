@@ -17,7 +17,7 @@ pub struct Command {
     pub build_system: BuildSystem,
 
     /// Version control system
-    #[clap(long, value_enum, default_value = "git")]
+    #[clap(long, value_enum, default_value_t = VersionControl::default())]
     pub vcs: VersionControl,
 }
 

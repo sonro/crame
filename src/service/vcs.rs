@@ -14,6 +14,12 @@ pub enum VersionControl {
     None,
 }
 
+impl Default for VersionControl {
+    fn default() -> Self {
+        Self::Git
+    }
+}
+
 const GIT_IGNORES: &[&str] = &["target/"];
 
 pub fn init_vcs(vcs: VersionControl, path: &mut PathBuf) -> anyhow::Result<()> {
