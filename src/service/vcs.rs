@@ -29,7 +29,7 @@ pub fn init_vcs(vcs: VersionControl, path: &mut PathBuf) -> anyhow::Result<()> {
             let repo = existing_git_repo(path);
 
             if let Some(ref repo) = repo {
-                tracing::debug!("Existing repo found at: `{}`", repo.path().display());
+                tracing::debug!(path = ?repo.path(), "Existing repo found");
             } else {
                 git_init(path);
             }
