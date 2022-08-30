@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create project directory.
 - Use a template to create project files.
 - Check if within an existing git repository or initialize it with [git2]
+- Create config in 'Crame.toml' file using [serde] and [toml].
 
 #### Cli
 
@@ -35,3 +36,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [thiserrror]: https://github.com/dtolnay/thiserror
 [colored]: https://github.com/mackwic/colored
 [exitcode]: https://github.com/benwilber/exitcode
+[serde]: https://github.com/serde-rs/serde
+[toml]: https://github.com/alexcrichton/toml-rs

@@ -3,6 +3,9 @@ use std::{io, path::PathBuf, process};
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
+    #[error("invalid config file: `{0}`")]
+    Config(PathBuf),
+
     #[error("unable to create directory: `{0}`")]
     CreateDir(PathBuf),
 
@@ -15,6 +18,9 @@ pub enum Error {
     #[error("unable to normalize path: `{0}`")]
     Normalize(PathBuf),
 
+    #[error("unable to read file: `{0}`")]
+    ReadFile(PathBuf),
+
     #[error("cannot write to file: `{0}`")]
     WriteFile(PathBuf),
 }
@@ -24,8 +30,13 @@ pub fn report_exit(err: &anyhow::Error, verbose: bool) {
     process::exit(exitcode_from_err(err));
 }
 
-pub fn report(err: &anyhow::Error, verbose: bool) {
+pub fn report(err: &anyhow::Error, mut verbose: bool) {
+    if let Some(Error::Config(_)) = err.downcast_ref() {
+        verbose = true;
+    }
+
     eprintln!("{}{} {}", "error".red().bold(), ":".white().bold(), err);
+
     if verbose {
         for cause in err.chain().skip(1) {
             eprintln!("{}{} {}", "cause".red(), ":".white(), cause);
@@ -41,6 +52,8 @@ fn exitcode_from_err(err: &anyhow::Error) -> exitcode::ExitCode {
             | Error::Normalize(_)
             | Error::CreateFile(_) => exitcode::CANTCREAT,
             Error::WriteFile(_) => exitcode::IOERR,
+            Error::ReadFile(_) => exitcode::NOINPUT,
+            Error::Config { .. } => exitcode::CONFIG,
         }
     } else if let Some(err) = err.downcast_ref::<io::Error>() {
         match err.kind() {
@@ -87,6 +100,16 @@ mod tests {
     #[test]
     fn exitcode_write_file() {
         assert_error_code(Error::WriteFile(PathBuf::new()), exitcode::IOERR);
+    }
+
+    #[test]
+    fn exitcode_read_file() {
+        assert_error_code(Error::ReadFile(PathBuf::new()), exitcode::NOINPUT);
+    }
+
+    #[test]
+    fn exitcode_config() {
+        assert_error_code(Error::Config(PathBuf::new()), exitcode::CONFIG);
     }
 
     #[test]

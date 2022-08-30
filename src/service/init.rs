@@ -1,5 +1,6 @@
 use super::{
     build_system::BuildSystem,
+    config::Config,
     vcs::{init_vcs, VersionControl},
 };
 use crate::error::Error;
@@ -18,7 +19,7 @@ use std::{
 #[tracing::instrument(level = "debug")]
 pub fn project_init(
     mut path: PathBuf,
-    _build_system: BuildSystem,
+    build_system: BuildSystem,
     vcs: VersionControl,
 ) -> anyhow::Result<()> {
     let depth = path_depth(&path);
@@ -28,6 +29,9 @@ pub fn project_init(
     create_program_files(&mut path, depth)?;
 
     init_vcs(vcs, &mut path)?;
+
+    let config = Config::init_from_path(&path, build_system)?;
+    config.save_in_dir(&mut path)?;
 
     Ok(())
 }
