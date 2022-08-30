@@ -7,6 +7,7 @@ mod app;
 mod cli;
 mod error;
 mod service;
+mod util;
 
 fn main() {
     let args = Args::parse();
