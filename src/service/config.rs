@@ -1,5 +1,5 @@
 use super::build_system::BuildSystem;
-use crate::error::Error;
+use crate::util::error::Error;
 
 use anyhow::Context;
 use serde::{Deserialize, Serialize};

@@ -1,5 +1,3 @@
-use crate::error;
-
 use clap::ValueEnum;
 use git2::Repository;
 
@@ -7,6 +5,8 @@ use std::{
     fs,
     path::{Path, PathBuf},
 };
+
+use crate::util::error;
 
 #[derive(Debug, Clone, Copy, ValueEnum)]
 pub enum VersionControl {

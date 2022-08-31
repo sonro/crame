@@ -1,4 +1,4 @@
-use crate::error::Error;
+use crate::util::error::Error;
 
 use anyhow::Context;
 use clap::ValueEnum;

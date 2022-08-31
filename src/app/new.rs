@@ -1,7 +1,9 @@
 use crate::{
-    error::Error,
     service::{build_system::BuildSystem, init::project_init, vcs::VersionControl},
-    util::file::{absolute_path, create_project_dir, normalize_path},
+    util::{
+        error::Error,
+        file::{absolute_path, create_project_dir, normalize_path},
+    },
 };
 
 use clap::Args;

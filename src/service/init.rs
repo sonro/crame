@@ -3,7 +3,7 @@ use super::{
     config::Config,
     vcs::{init_vcs, VersionControl},
 };
-use crate::error::Error;
+use crate::util::error::Error;
 
 use anyhow::Context;
 
