@@ -2,6 +2,7 @@ use clap::{Parser, Subcommand};
 
 mod init;
 mod new;
+
 #[derive(Debug, Parser)]
 #[clap(author, version, about, long_about = None)]
 pub struct Args {

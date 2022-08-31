@@ -1,8 +1,8 @@
-use app::Args;
-
 use clap::Parser;
 use tracing::Level;
 use tracing_subscriber::fmt;
+
+use app::Args;
 
 mod app;
 mod service;

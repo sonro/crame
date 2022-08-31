@@ -1,11 +1,11 @@
+use std::path::PathBuf;
+
+use clap::Args;
+
 use crate::{
     service::{build_system::BuildSystem, init::project_init, vcs::VersionControl},
     util::file::{absolute_path, create_project_dir, normalize_path},
 };
-
-use clap::Args;
-
-use std::path::PathBuf;
 
 /// Initialize a new crame project
 #[derive(Debug, Args)]

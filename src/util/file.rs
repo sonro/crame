@@ -1,11 +1,11 @@
-use super::error::Error;
-
-use anyhow::Context;
-
 use std::{
     fs,
     path::{Path, PathBuf},
 };
+
+use anyhow::Context;
+
+use super::error::Error;
 
 pub fn absolute_path(path: &Path) -> anyhow::Result<PathBuf> {
     let mut output = std::env::current_dir().context("unable to locate current directory")?;

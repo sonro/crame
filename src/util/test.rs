@@ -1,6 +1,6 @@
-use tempfile::{tempdir, TempDir};
-
 use std::path::PathBuf;
+
+use tempfile::{tempdir, TempDir};
 
 pub fn testdir_and_path() -> (TempDir, PathBuf) {
     let dir = tempdir().expect("create temporary directory");
