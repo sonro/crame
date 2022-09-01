@@ -46,5 +46,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [serde]: https://github.com/serde-rs/serde
 [toml]: https://github.com/alexcrichton/toml-rs
 
-[Unreleased]: https://github.com/sonro/crame/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/sonro/crame/compare/v0.1.0...dev
 [0.1.0]: https://github.com/sonro/crame/releases/tag/v0.1.0
