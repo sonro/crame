@@ -1,5 +1,3 @@
-use crate::error;
-
 use clap::ValueEnum;
 use git2::Repository;
 
@@ -7,6 +5,8 @@ use std::{
     fs,
     path::{Path, PathBuf},
 };
+
+use crate::util::error;
 
 #[derive(Debug, Clone, Copy, ValueEnum)]
 pub enum VersionControl {
@@ -100,7 +100,7 @@ fn git_init(path: &Path) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::service::test_util::testdir_and_path;
+    use crate::util::test::testdir_and_path;
 
     use tempfile::TempDir;
 

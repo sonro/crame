@@ -1,5 +1,5 @@
 use super::build_system::BuildSystem;
-use crate::error::Error;
+use crate::util::error::Error;
 
 use anyhow::Context;
 use serde::{Deserialize, Serialize};
@@ -92,7 +92,7 @@ impl Config {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::service::test_util::testdir_and_path;
+    use crate::util::test::testdir_and_path;
 
     use tempfile::TempDir;
 

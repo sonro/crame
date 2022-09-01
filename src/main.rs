@@ -1,12 +1,12 @@
 use clap::Parser;
-use cli::Args;
 use tracing::Level;
 use tracing_subscriber::fmt;
 
+use app::Args;
+
 mod app;
-mod cli;
-mod error;
 mod service;
+mod util;
 
 fn main() {
     let args = Args::parse();
@@ -14,7 +14,7 @@ fn main() {
     tracing::debug!("Starting app");
 
     if let Err(ref err) = args.run() {
-        error::report_exit(err, args.verbose);
+        util::error::report_exit(err, args.verbose);
     }
 
     tracing::debug!("Closing app");

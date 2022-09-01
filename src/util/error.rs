@@ -1,5 +1,6 @@
-use colored::Colorize;
 use std::{io, path::PathBuf, process};
+
+use colored::Colorize;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {

@@ -1,4 +1,4 @@
-use crate::error::Error;
+use crate::util::error::Error;
 
 use anyhow::Context;
 use clap::ValueEnum;
@@ -43,7 +43,7 @@ fn create_justfile(path: &mut PathBuf) -> anyhow::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::service::test_util::{template_dir, testdir_and_path};
+    use crate::util::test::{template_dir, testdir_and_path};
 
     #[test]
     fn just() {
