@@ -15,6 +15,8 @@ main build tool and test runner. The [justfile](template/justfile) is also
 dependent on [fd](https://github.com/sharkdp/fd) and requires
 [watchexec](https://github.com/watchexec/watchexec) for file watching.
 
+A c compiler linked to the `cc` executable is also required.
+
 ### Cargo
 
 If you're a **Rust programmer**, crame can be installed with `cargo`.
