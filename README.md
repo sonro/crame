@@ -10,7 +10,7 @@ A build tool for c projects, with a small testing framework.
 
 ### Prerequisites
 
-`crame` projects currently use [Just](https://github.com/casey/just) as their
+crame projects currently use [Just](https://github.com/casey/just) as their
 main build tool and test runner. The [justfile](template/justfile) is also
 dependent on [fd](https://github.com/sharkdp/fd) and requires
 [watchexec](https://github.com/watchexec/watchexec) for file watching.
@@ -27,7 +27,7 @@ cargo install crame
 
 ### Building
 
-`crame` is written in Rust, so you'll need to grab a
+crame is written in Rust, so you'll need to grab a
 [Rust installation](https://www.rust-lang.org/) in order to compile it.
 
 To build crame:
@@ -41,7 +41,7 @@ cargo build --release
 
 ## License
 
-`crame` is distributed under the terms of both the MIT license and the
+crame is distributed under the terms of both the MIT license and the
 Apache License (Version 2.0).
 
 See [LICENSE-APACHE](LICENSE-APACHE) and [LICENSE-MIT](LICENSE-MIT) for details.
