@@ -13,7 +13,7 @@ A build tool for c projects, with a small testing framework.
 
 - Create a c project with a simple directory structure, main file, and test
   runner.
-- Automatically intializes a git repository.
+- Automatically initializes a git repository.
 - Dependency free test runner.
 - Build, run, test, watch, and add code modules with [Just].
 
