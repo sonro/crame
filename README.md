@@ -28,7 +28,7 @@ A build tool for c projects, with a small testing framework.
 ## Rationale
 
 This CLI tool is intended to give a
-[Cargo](https://github.com/rust-lang/cargo/)-like expereince for simple
+[Cargo](https://github.com/rust-lang/cargo/)-like experience for simple
 c projects. It's primary goals are to reduce the tedium of writing a makefile,
 adding and running tests, and adding additional source files with proper
 include guards.
