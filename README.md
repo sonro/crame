@@ -15,7 +15,14 @@ A build tool for c projects, with a small testing framework.
   runner.
 - Automatically intializes a git repository.
 - Dependency free test runner.
-- Build, test, and watch with [Just].
+- Build, run, test, watch, and add code modules with [Just].
+
+### Planned features
+
+- Move builder, runner, tester, and watcher out of justfile and into the
+  application.
+- Configurable build options.
+- Add code modules with tests already setup.
 
 ## Installation
 
