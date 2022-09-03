@@ -6,14 +6,48 @@ A build tool for c projects, with a small testing framework.
 [![tests](https://github.com/sonro/crame/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/sonro/crame/actions/workflows/tests.yml)
 [![license](https://img.shields.io/crates/l/crame.svg)](#license)
 
+- [Rationale](#rationale)
+- [Installation](#installation)
+- [How to use](#how-to-use)
+
+## Features
+
+- Create a c project with a simple directory structure, main file, and test
+  runner.
+- Automatically initializes a git repository.
+- Dependency free test runner.
+- Build, run, test, watch, and add code modules with [Just].
+
+### Planned features
+
+- Move builder, runner, tester, and watcher out of justfile and into the
+  application.
+- Configurable build options.
+- Add code modules with tests already setup.
+
+## Rationale
+
+This CLI tool is intended to give a
+[Cargo](https://github.com/rust-lang/cargo/)-like experience for simple
+c projects. It's primary goals are to reduce the tedium of writing a makefile,
+adding and running tests, and adding additional source files with proper
+include guards.
+
+The framework currently relies on [Just] for most of its functionality. The
+basis of this application is the [justfile].
+
+### Why write it in Rust?
+
+As the project is inspired by Cargo and other modern development tools, it
+seems natural to use Rust and its plethora of CLI libraries.
+
 ## Installation
 
 ### Prerequisites
 
-crame projects currently use [Just](https://github.com/casey/just) as their
-main build tool and test runner. The [justfile](template/justfile) is also
-dependent on [fd](https://github.com/sharkdp/fd) and requires
-[watchexec](https://github.com/watchexec/watchexec) for file watching.
+crame projects currently use [Just] as their main build tool and test runner.
+The [justfile] is also dependent on [fd](https://github.com/sharkdp/fd) and
+requires [watchexec](https://github.com/watchexec/watchexec) for file watching.
 
 A c compiler linked to the `cc` executable is also required.
 
@@ -43,7 +77,9 @@ cargo build --release
 
 ### Create a project
 
-Using `crame new` creates a project in the specified directory.
+Using `crame new` creates a project in the specified directory. Automatically
+intializes a git repository, unless the directory is already within one, or the
+`--vcs` option is set to `none`.
 
 ```sh
 crame new my-project
@@ -155,3 +191,6 @@ crame is distributed under the terms of both the MIT license and the
 Apache License (Version 2.0).
 
 See [LICENSE-APACHE](LICENSE-APACHE) and [LICENSE-MIT](LICENSE-MIT) for details.
+
+[Just]: https://github.com/casey/just
+[justfile]: template/justfile
