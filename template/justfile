@@ -16,9 +16,9 @@ default:
     @just --choose --chooser "fzf --height 10 --cycle"
 
 # build and run executable
-run: build
+run *ARGS: build
     @echo "$(tput setaf 2)Running {{exeName}}$(tput sgr0):\n"
-    @./target/{{exeName}}
+    @./target/{{exeName}} {{ARGS}}
 
 # build and run tests
 test: _build-test
@@ -30,8 +30,8 @@ watch:
     @watchexec -cr -e c,h just test
 
 # rebuild and run executable on every change
-watch-run:
-    @watchexec -cr -e c,h just run
+watch-run *ARGS:
+    @watchexec -cr -e c,h just run {{ARGS}}
 
 # build executable into ./target
 build:

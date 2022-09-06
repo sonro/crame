@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `just run` and `just watch-run` passing command line arguments to the target
+  executable. [Issue](https://github.com/sonro/crame/issues/15).
+
 ## [0.1.1] - 2022-09-03
 
 ### Added
